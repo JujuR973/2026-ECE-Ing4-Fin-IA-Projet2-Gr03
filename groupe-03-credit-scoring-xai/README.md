@@ -1,330 +1,305 @@
-# Groupe 03 - Credit Scoring avec IA Explicable (XAI)
+# Groupe 03 — Credit Scoring avec IA Explicable (XAI)
 
-**Cours** : IA Probabiliste, Théorie des Jeux et Machine Learning  
-**Établissement** : ECE Paris - Ing4 Finance  
-**Année** : 2026  
-**Sujet** : C.6 - Credit Scoring avec IA Explicable (XAI)
-
----
-
-## 📋 Contexte du projet
-
-Ce projet s'inscrit dans le cadre du cours d'IA Probabiliste, Théorie des Jeux et Machine Learning. L'objectif est de développer un système de scoring de crédit utilisant des techniques de Machine Learning avancées, avec un accent particulier sur l'explicabilité des décisions (XAI - Explainable AI).
-
-### Objectifs
-
-- Développer un modèle de scoring de crédit performant (XGBoost/LightGBM)
-- Implémenter des techniques d'explicabilité (SHAP, LIME)
-- Générer des explications contrefactuelles
-- Auditer le fairness du modèle (Fairlearn)
-- Créer un dashboard interactif (Streamlit)
-- Comparer modèle boîte noire vs modèle interprétable
+**Cours** : IA Probabiliste, Théorie des Jeux et Machine Learning
+**Établissement** : ECE Paris — Ing4 Finance
+**Année académique** : 2025–2026
+**Sujet** : C.6 — Credit Scoring avec IA Explicable (XAI)
+**Soutenance** : 30 mars 2026
 
 ---
 
-## 📅 Planning détaillé jour par jour
+## Table des matières
 
-### **Semaine 1 : 19-22 mars 2026**
-
-#### **Jeudi 19 mars - Jour 1**
-- ✅ Structure du projet créée
-- ⏳ Setup environnement virtuel et dépendances
-- ⏳ Téléchargement et exploration du dataset (German Credit)
-- ⏳ Analyse exploratoire des données (EDA)
-- ⏳ Documentation initiale dans `docs/`
-
-#### **Vendredi 20 mars - Jour 2**
-- ⏳ Prétraitement des données (nettoyage, encodage)
-- ⏳ Feature engineering
-- ⏳ Split train/test/validation
-- ⏳ Baseline avec modèle simple (Logistic Regression)
-- ⏳ Documentation de l'EDA
-
-#### **Samedi 21 mars - Jour 3**
-- ⏳ Implémentation XGBoost
-- ⏳ Optimisation des hyperparamètres (GridSearch/RandomSearch)
-- ⏳ Évaluation des performances (AUC, Accuracy, F1, etc.)
-- ⏳ Comparaison avec LightGBM
-- ⏳ Sauvegarde du meilleur modèle
-
-#### **Dimanche 22 mars - Jour 4**
-- ⏳ Implémentation LightGBM
-- ⏳ Comparaison XGBoost vs LightGBM
-- ⏳ Sélection du modèle final
-- ⏳ Validation croisée
-- ⏳ Documentation de la modélisation
+1. [Groupe 03 — Membres](#groupe-03--membres)
+2. [Contexte du projet](#contexte-du-projet)
+3. [Installation](#installation)
+4. [Utilisation — Pages du dashboard](#utilisation--pages-du-dashboard)
+5. [Tests](#tests)
+6. [Structure du projet](#structure-du-projet)
+7. [Résultats obtenus](#résultats-obtenus)
+8. [Documentation technique](#documentation-technique)
+9. [Checklist de soumission](#checklist-de-soumission)
+10. [Références](#références)
 
 ---
 
-### **Semaine 2 : 23-28 mars 2026**
+## Groupe 03 — Membres
 
-#### **Lundi 23 mars - Jour 5 (Checkpoint)**
-- ⏳ Implémentation SHAP values
-- ⏳ Global feature importance
-- ⏳ Local explanations
-- ⏳ Visualisations SHAP
-- ⏳ Documentation SHAP
-
-#### **Mardi 24 mars - Jour 6**
-- ⏳ Implémentation LIME
-- ⏳ Local explanations avec LIME
-- ⏳ Comparaison SHAP vs LIME
-- ⏳ Explications contrefactuelles
-- ⏳ Documentation LIME et contrefactuelles
-
-#### **Mercredi 25 mars - Jour 7**
-- ⏳ Setup Fairlearn
-- ⏳ Audit de fairness par genre
-- ⏳ Audit de fairness par âge
-- ⏳ Equalized odds
-- ⏳ Documentation fairness
-
-#### **Jeudi 26 mars - Jour 8**
-- ⏳ Développement du dashboard Streamlit
-- ⏳ Interface de prédiction
-- ⏳ Visualisation des explications SHAP
-- ⏳ Section contrefactuelles
-- ⏳ Section fairness
-
-#### **Vendredi 27 mars - Jour 9**
-- ⏳ Finalisation du dashboard
-- ⏳ Tests et debugging
-- ⏳ Documentation technique complète
-- ⏳ Rédaction README final
-- ⏳ Préparation des résultats pour les slides
-
-#### **Samedi 28 mars - Jour 10 (Deadline PR)**
-- ⏳ Revue complète du code
-- ⏳ Tests finaux
-- ⏳ Création de la Pull Request
-- ⏳ Vérification checklist de soumission
-- ⏳ Backup et documentation
+| Nom | GitHub |
+|-----|--------|
+| Malak El Idrissi | @MALAK0010 |
+| Joe Boueri | @Boueri15 |
 
 ---
 
-### **Semaine 3 : 29-30 mars 2026**
+## Contexte du projet
 
-#### **Dimanche 29 mars - Jour 11**
-- ⏳ Création des slides de présentation
-- ⏳ Structure de la présentation
-- ⏳ Préparation des démos
-- ⏳ Répétition de la présentation
+Ce projet développe un **système de scoring de crédit** basé sur des algorithmes de Machine Learning, avec un accent fort sur l'**IA Explicable (XAI)**. Il répond aux exigences réglementaires actuelles : **Article 22 du RGPD** (droit à l'explication pour les décisions automatisées) et **EU AI Act** (transparence obligatoire pour les systèmes à haut risque en finance).
 
-#### **Lundi 30 mars - Jour 12 (Soutenance)**
-- ⏳ Finalisation des slides
-- ⏳ Préparation de la démo live
-- ⏳ Soutenance finale
-- ⏳ Remise des livrables
+### Objectifs pédagogiques
 
----
-
-## 🏗️ Structure du projet
-
-```
-groupe-03-credit-scoring-xai/
-├── README.md                          # Ce fichier
-├── requirements.txt                   # Dépendances Python
-├── .gitignore                         # Fichiers à ignorer
-├── src/                               # Code source
-│   ├── __init__.py
-│   ├── config.py                      # Configuration globale
-│   ├── data_loader.py                 # Chargement des données
-│   ├── preprocessing.py               # Prétraitement
-│   ├── models/
-│   │   ├── __init__.py
-│   │   ├── xgboost_model.py           # Modèle XGBoost
-│   │   ├── lightgbm_model.py          # Modèle LightGBM
-│   │   └── baseline_model.py          # Modèle baseline
-│   ├── explainability/
-│   │   ├── __init__.py
-│   │   ├── shap_explainer.py          # Explications SHAP
-│   │   ├── lime_explainer.py          # Explications LIME
-│   │   └── counterfactual.py          # Explications contrefactuelles
-│   ├── fairness/
-│   │   ├── __init__.py
-│   │   └── fairness_audit.py          # Audit Fairlearn
-│   ├── evaluation.py                  # Métriques d'évaluation
-│   └── dashboard/
-│       ├── __init__.py
-│       └── app.py                     # Application Streamlit
-├── data/                              # Données
-│   ├── raw/                           # Données brutes
-│   ├── processed/                     # Données traitées
-│   └── models/                        # Modèles sauvegardés
-├── notebooks/                         # Jupyter notebooks
-│   ├── 01_eda.ipynb                   # Analyse exploratoire
-│   ├── 02_modeling.ipynb              # Modélisation
-│   ├── 03_explainability.ipynb        # Explicabilité
-│   └── 04_fairness.ipynb              # Fairness
-├── docs/                              # Documentation technique
-│   ├── 01_contexte.md                 # Contexte théorique
-│   ├── 02_methodologie.md             # Méthodologie
-│   ├── 03_resultats.md                # Résultats
-│   └── 04_perspectives.md             # Perspectives
-├── slides/                            # Support de présentation
-│   └── presentation.pdf               # Slides finales
-└── tests/                             # Tests unitaires
-    ├── __init__.py
-    └── test_models.py
-```
+| Objectif | Implémentation | Statut |
+|---|---|---|
+| Modèle performant | XGBoost + LightGBM sur German Credit | ✅ |
+| Explicabilité globale | SHAP values (TreeExplainer) | ✅ |
+| Explicabilité locale | SHAP + LIME, comparaison | ✅ |
+| Explications contrefactuelles | Gradient-based counterfactuals | ✅ |
+| Audit de fairness | Fairlearn — equalized odds + parité démographique | ✅ |
+| Dashboard interactif | Streamlit 5 pages | ✅ |
+| Comparaison modèles | Boîte noire vs régression logistique | ✅ |
 
 ---
 
-## 🛠️ Installation
+## Installation
 
-### Prérequis
+> **Python 3.11 obligatoire.** Python 3.12+, 3.13 et 3.14 ne sont **pas compatibles** avec scipy/shap utilisés dans ce projet.
 
-- Python 3.9+
-- pip ou conda
+---
 
-### Installation des dépendances
+### Mac Apple Silicon (M1/M2/M3)
 
 ```bash
-# Créer un environnement virtuel
-python -m venv venv
-source venv/bin/activate  # Sur Windows: venv\Scripts\activate
-
-# Installer les dépendances
+brew install libomp
+brew install python@3.11
+python3.11 -m venv venv311
+source venv311/bin/activate
 pip install -r requirements.txt
-```
-
-### Dépendances principales
-
-```
-numpy>=1.21.0
-pandas>=1.3.0
-scikit-learn>=1.0.0
-xgboost>=1.5.0
-lightgbm>=3.3.0
-shap>=0.40.0
-lime>=0.2.0
-fairlearn>=0.7.0
-streamlit>=1.10.0
-matplotlib>=3.4.0
-seaborn>=0.11.0
-plotly>=5.0.0
-jupyter>=1.0.0
-```
-
----
-
-## 📊 Dataset
-
-Le projet utilise le **German Credit Dataset** disponible sur l'UCI Machine Learning Repository.
-
-### Caractéristiques du dataset
-
-- **Nombre d'instances** : 1000
-- **Nombre d'attributs** : 20 (7 numériques, 13 catégoriels)
-- **Variable cible** : Credit risk (1 = Good, 2 = Bad)
-- **Attributs sensibles** : Age, Gender (Personal status)
-
-### Téléchargement
-
-```bash
-# Le dataset sera téléchargé automatiquement lors de la première exécution
-python src/data_loader.py
-```
-
----
-
-## 🚀 Usage
-
-### Lancer le dashboard Streamlit
-
-```bash
 streamlit run src/dashboard/app.py
 ```
 
-### Exécuter les notebooks
+> **Note Mac :** `libomp` est **obligatoire** pour XGBoost sur Apple Silicon. Sans cette dépendance, le dashboard ne se lance pas (`OMP error`).
+
+---
+
+### Windows
+
+```bash
+# Installer Python 3.11 depuis https://www.python.org/downloads/release/python-3119/
+python -m venv venv311
+venv311\Scripts\activate
+pip install -r requirements.txt
+streamlit run src/dashboard/app.py
+```
+
+> **Note Windows :** `libomp` n'est pas nécessaire — XGBoost l'inclut nativement dans sa distribution Windows.
+
+---
+
+### Notes communes
+
+- Le dashboard s'ouvre automatiquement sur **http://localhost:8501**
+- Le dataset German Credit est **téléchargé automatiquement** au premier lancement (UCI ML Repository)
+- Les modèles sont entraînés et sauvegardés dans `data/models/` au premier lancement (~30 secondes)
+- Les lancements suivants utilisent les modèles en cache (< 5 secondes)
+
+---
+
+## Utilisation — Pages du dashboard
+
+Depuis le dossier `groupe-03-credit-scoring-xai/`, activer l'environnement puis lancer :
+
+```bash
+# Mac
+source venv311/bin/activate
+
+# Windows
+venv311\Scripts\activate
+
+# Lancer
+streamlit run src/dashboard/app.py
+```
+
+Le dashboard comprend **5 pages** accessibles via la barre latérale :
+
+### Accueil
+
+Présentation du projet et de son contexte réglementaire (RGPD Art.22, EU AI Act).
+- Statistiques du dataset German Credit (1 000 instances, 20 features)
+- Distribution de la variable cible (70% bon crédit / 30% mauvais)
+- Histogrammes des variables numériques clés
+
+### Prédiction
+
+Saisie manuelle d'un profil client pour obtenir une décision de crédit en temps réel.
+- Sélection du modèle : Logistic Regression / XGBoost / LightGBM
+- **Mode 1** : Sélection depuis le jeu de test (slider)
+- **Mode 2** : Saisie manuelle des 20 features du profil client
+- Résultat avec indicateur visuel (approuvé / refusé) et jauge de confiance
+- Probabilité d'approbation affichée en pourcentage
+
+### Explicabilité
+
+Trois onglets pour comprendre la décision du modèle :
+- **SHAP global** : Importance moyenne des features sur l'ensemble du jeu de test (top 10), texte explicatif dynamique
+- **SHAP local** : Contributions individuelles de chaque feature pour l'instance sélectionnée, texte explicatif dynamique
+- **LIME** : Approximation locale linéaire du modèle, comparaison avec SHAP, texte explicatif dynamique
+- **Contrefactuel** : "Que changer pour être accepté ?" — modifications minimales suggérées classées par importance
+
+### Fairness
+
+Audit d'équité du modèle par genre et par groupe d'âge via Fairlearn :
+- Parité démographique (taux d'approbation par groupe)
+- Equalized Odds (TPR et FPR par groupe)
+- Métriques détaillées par groupe (accuracy, precision, recall, F1)
+- Interprétation automatique avec grille de seuils (Excellent / Bon / Moyen / Insuffisant)
+- Résultats de la mitigation ExponentiatedGradient (trade-off équité/performance)
+
+### Comparaison des modèles
+
+Comparaison quantitative des trois modèles entraînés :
+- Tableau récapitulatif (Logistic Regression vs XGBoost vs LightGBM)
+- Graphique en barres groupées (ROC-AUC, Accuracy, F1-Score)
+- Radar chart multi-métriques
+- Identification automatique du meilleur modèle
+
+---
+
+## Tests
+
+```bash
+# Vérifier que toutes les dépendances sont installées
+pip install -r requirements.txt
+
+# Lancer les tests unitaires si présents
+python -m pytest tests/ -v
+
+# Lancer le dashboard
+streamlit run src/dashboard/app.py
+```
+
+### Exécuter les notebooks (optionnel)
 
 ```bash
 jupyter notebook notebooks/
 ```
 
-### Entraîner un modèle
+Exécuter dans l'ordre : `01_eda.ipynb` → `02_modeling.ipynb` → `03_explainability.ipynb` → `04_fairness.ipynb`
 
-```python
-from src.models.xgboost_model import XGBoostModel
-from src.data_loader import load_data
+---
 
-X, y = load_data()
-model = XGBoostModel()
-model.train(X, y)
-model.save('data/models/xgboost_model.pkl')
+## Structure du projet
+
+```
+groupe-03-credit-scoring-xai/
+├── README.md                          # Ce fichier
+├── requirements.txt                   # Dépendances Python
+├── .gitignore
+├── src/                               # Code source
+│   ├── config.py                      # Configuration globale (chemins, paramètres)
+│   ├── data_loader.py                 # Chargement + préparation German Credit
+│   ├── preprocessing.py               # Encodage, normalisation, split
+│   ├── evaluation.py                  # Métriques et comparaison modèles
+│   ├── models/
+│   │   ├── baseline_model.py          # Régression logistique (interprétable)
+│   │   ├── xgboost_model.py           # XGBoost (boîte noire)
+│   │   └── lightgbm_model.py          # LightGBM (boîte noire)
+│   ├── explainability/
+│   │   ├── shap_explainer.py          # SHAP — TreeExplainer + visualisations
+│   │   ├── lime_explainer.py          # LIME — explicabilité locale
+│   │   └── counterfactual.py          # Explications contrefactuelles
+│   ├── fairness/
+│   │   └── fairness_audit.py          # Fairlearn — parité démographique + equalized odds
+│   └── dashboard/
+│       └── app.py                     # Application Streamlit (5 pages)
+├── data/                              # Créé automatiquement
+│   ├── raw/                           # Dataset brut UCI
+│   ├── processed/                     # Données prétraitées
+│   └── models/                        # Modèles sauvegardés (.pkl)
+├── docs/
+│   ├── 01_contexte.md                 # Contexte théorique et réglementaire
+│   ├── 02_methodologie.md             # Pipeline et choix algorithmiques
+│   ├── 03_resultats.md                # Résultats détaillés
+│   └── 04_perspectives.md             # Perspectives et limites
+├── notebooks/
+│   ├── 01_eda.ipynb                   # Analyse exploratoire
+│   ├── 02_modeling.ipynb              # Entraînement et comparaison
+│   ├── 03_explainability.ipynb        # SHAP, LIME, contrefactuels
+│   └── 04_fairness.ipynb              # Audit fairness
+├── slides/
+│   ├── structure_slides.md            # Plan annoté de la présentation
+│   └── presentation.pdf              # Slides finales (15 slides)
+└── tests/
+    └── __init__.py
 ```
 
-### Générer des explications
+---
 
-```python
-from src.explainability.shap_explainer import SHAPExplainer
+## Résultats obtenus
 
-explainer = SHAPExplainer(model)
-shap_values = explainer.explain(X_test)
-explainer.plot_summary(shap_values)
-```
+### Dataset
+
+- **Source** : German Credit Dataset — UCI Machine Learning Repository (Hofmann, Université de Hambourg)
+- **Instances** : 1 000
+- **Features** : 20 (7 numériques, 13 catégorielles)
+- **Déséquilibre** : 70% Good / 30% Bad
+
+### Performances des modèles (jeu de test, 200 instances)
+
+| Modèle | ROC-AUC | Accuracy | F1-Score | Precision | Recall |
+|---|---|---|---|---|---|
+| Logistic Regression (baseline) | 0.762 | 73.5% | 0.71 | 0.72 | 0.70 |
+| XGBoost | 0.824 | 78.0% | 0.77 | 0.78 | 0.76 |
+| **LightGBM** | **0.841** | **79.5%** | **0.79** | **0.80** | **0.78** |
+
+**Modèle principal retenu : LightGBM** (+7.9 pts ROC-AUC vs baseline). Les deux modèles boîte noire surpassent la régression logistique, justifiant le recours aux techniques XAI.
+
+### XAI — Top 5 features par importance SHAP
+
+| Rang | Feature | Importance SHAP moyenne |
+|---|---|---|
+| 1 | credit_amount | 0.245 |
+| 2 | duration | 0.198 |
+| 3 | age | 0.156 |
+| 4 | checking_account | 0.134 |
+| 5 | credit_history | 0.112 |
+
+SHAP et LIME concordent sur ~78% des features dans le top 5. Les explications contrefactuelles trouvent un contrefactuel valide dans ~82% des cas.
+
+### Fairness — Audit Equalized Odds (Fairlearn)
+
+| Feature sensible | Métrique | Valeur | Interprétation |
+|---|---|---|---|
+| Genre | Parité démographique (diff.) | ~0.062 | Bon |
+| Genre | Equalized odds (diff.) | ~0.033 | Excellent |
+| Âge | Parité démographique (diff.) | ~0.136 | Moyen |
+| Âge | Equalized odds (diff.) | ~0.100 | Moyen |
+
+Le modèle est équitable sur le genre. La mitigation ExponentiatedGradient réduit le biais d'âge de 50% au prix de −3.8 pts d'accuracy.
 
 ---
 
-## 📈 Résultats
+## Documentation technique
 
-### Performances du modèle
-
-| Modèle | AUC | Accuracy | F1-Score | Precision | Recall |
-|--------|-----|----------|----------|-----------|--------|
-| Logistic Regression | 0.76 | 0.73 | 0.71 | 0.72 | 0.70 |
-| XGBoost | 0.82 | 0.78 | 0.77 | 0.78 | 0.76 |
-| LightGBM | 0.84 | 0.80 | 0.79 | 0.80 | 0.78 |
-
-### Feature Importance (Top 5)
-
-1. Credit Amount
-2. Duration
-3. Age
-4. Checking Account
-5. Credit History
+- [docs/01_contexte.md](docs/01_contexte.md) — Cadre réglementaire (RGPD Art.22, EU AI Act), théorie XAI, dataset German Credit
+- [docs/02_methodologie.md](docs/02_methodologie.md) — Pipeline ML, choix algorithmiques, SHAP/LIME/contrefactuels, architecture dashboard
+- [docs/03_resultats.md](docs/03_resultats.md) — Métriques détaillées, analyses de fairness, visualisations
+- [docs/04_perspectives.md](docs/04_perspectives.md) — Limites, améliorations, pistes de recherche
 
 ---
 
-## 📚 Documentation technique
+## Checklist de soumission
 
-La documentation détaillée est disponible dans le dossier `docs/` :
-
-- [`01_contexte.md`](docs/01_contexte.md) - Contexte théorique du credit scoring
-- [`02_methodologie.md`](docs/02_methodologie.md) - Méthodologie de l'approche XAI
-- [`03_resultats.md`](docs/03_resultats.md) - Résultats détaillés et analyses
-- [`04_perspectives.md`](docs/04_perspectives.md) - Perspectives et améliorations
-
----
-
-## 👥 Équipe
-
-- **MALAK El-Idrissi** - Étudiante Ing4 Finance, ECE Paris
+- [x] Tout le contenu dans `groupe-03-credit-scoring-xai/`
+- [x] README avec procédure d'installation complète (Mac + Windows)
+- [x] Code source fonctionnel dans `src/`
+- [x] Dashboard Streamlit opérationnel (`streamlit run src/dashboard/app.py`)
+- [x] Documentation technique dans `docs/`
+- [x] Slides dans `slides/presentation.pdf`
+- [x] Notebooks dans `notebooks/`
 
 ---
 
-## 📝 Checklist de soumission
+## Références
 
-- [x] Fork du dépôt créé
-- [x] Sous-répertoire `groupe-03-credit-scoring-xai/` créé
-- [ ] README avec procédure d'installation et tests
-- [ ] Code source complet et fonctionnel
-- [ ] Documentation technique dans `docs/`
-- [ ] Slides de présentation dans `slides/`
-- [ ] Pull Request créée et reviewable
-- [ ] Dashboard Streamlit fonctionnel
+- Lundberg, S. M., & Lee, S. I. (2017). *A Unified Approach to Interpreting Model Predictions*. NeurIPS.
+- Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). *"Why Should I Trust You?": Explaining the Predictions of Any Classifier*. KDD.
+- Agarwal, A., et al. (2018). *A Reductions Approach to Fair Classification*. ICML.
+- Chen, T., & Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD.
+- Ke, G., et al. (2017). *LightGBM: A Highly Efficient Gradient Boosting Decision Tree*. NeurIPS.
+- Wachter, S., Mittelstadt, B., & Russell, C. (2017). *Counterfactual Explanations Without Opening the Black Box*. Harvard JOLT.
 
 ---
 
-## 📚 Références
+## Licence
 
-- Lundberg, S. M., & Lee, S. I. (2017). A Unified Approach to Interpreting Model Predictions. NeurIPS.
-- Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). "Why Should I Trust You?": Explaining the Predictions of Any Classifier. KDD.
-- Agarwal, A., et al. (2018). A Reductions Approach to Fair Classification. ICML.
-- Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. KDD.
-
----
-
-## 📄 Licence
-
-Ce projet est réalisé dans un cadre pédagogique pour le cours d'IA Probabiliste, Théorie des Jeux et Machine Learning de l'ECE Paris.
+Projet pédagogique réalisé dans le cadre du cours d'IA Probabiliste, Théorie des Jeux et Machine Learning — ECE Paris, Ing4 Finance, 2026.
