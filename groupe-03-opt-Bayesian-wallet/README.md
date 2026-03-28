@@ -1,134 +1,153 @@
-# **C.5 - Optimisation de Portefeuille Bayesien (Black-Litterman)**
+# C.5 - Optimisation de Portefeuille Bayésien (Black-Litterman)
 
-**Difficulté** : 3/5 | **Domaine** : Probabilités, Machine Learning
-
----
-
-## **📌 Description**
-
-Au-delà de la théorie de Markowitz classique, ce projet implémente le **modèle Black-Litterman** pour intégrer des *"views"* (opinions) probabilistes sur les rendements futurs. L’approche bayésienne combine un *prior* (équilibre de marche) avec des *views* de l’investisseur pour obtenir une allocation plus stable et intuitive. Ce modèle est largement utilisé par les asset managers institutionnels.
+**Groupe 03 | ECE Paris 2026 | Difficulté : 3/5 | Domaine : Probabilités, Machine Learning**
 
 ---
 
-## **🎯 Objectifs Gradés**
+## Contexte & Problème
 
+La théorie classique de Markowitz (1952) optimise un portefeuille en maximisant le rendement pour un niveau de risque donné. Cependant, elle présente deux limites majeures :
 
-| Niveau        | Objectifs                                                                                                           | Statut |
-| ------------- | ------------------------------------------------------------------------------------------------------------------- | ------ |
-| **Minimum**   | Implémentation Black-Litterman avec *views* simples, comparaison avec Markowitz classique sur données Yahoo Finance | 🟡     |
-| **Bon**       | *Views* avec niveaux de confiance variables, optimisation sous contraintes (budget, secteur), frontière efficiente  | 🟡     |
-| **Excellent** | *Views* générées par ML (sentiment, momentum), backtesting multi-périodes, analyse de sensibilité aux *views*       | 🟡     |
+- Elle traite tous les actifs de la même façon sans intégrer les opinions de l'investisseur
+- Elle est très sensible aux estimations des rendements, ce qui produit des allocations instables
 
-
----
-
-## **📚 Notebooks de Référence**
-
-
-| Notebook  | Description                              | Lien      |
-| --------- | ---------------------------------------- | --------- |
-| Infer-101 | Inference bayésienne (prior + posterior) | [Lien](#) |
-| QC-Py-21  | Optimisation de portefeuille ML          | [Lien](#) |
-
+**Problème** : Comment construire un portefeuille optimal qui intègre à la fois les données de marché *et* les opinions de l'investisseur de façon rigoureuse ?
 
 ---
 
-## **🔗 Références Externes**
+## Solution
 
+Nous implémentons le **modèle Black-Litterman** (1992), une approche bayésienne qui combine :
 
-| Source                            | Description                                                   | Lien                                                                       |
-| --------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| PyPortfolioOpt - Black-Litterman  | Implémentation directe en Python (point de départ recommandé) | [Lien](https://github.com/robertmartin8/PyPortfolioOpt)                    |
-| Riskfolio-Lib                     | Optimisation avancée avec Black-Litterman                     | [Lien](https://riskfolio-lib.readthedocs.io/)                              |
-| Black-Litterman Model (Wikipedia) | Référence théorique                                           | [Lien](https://en.wikipedia.org/wiki/Black%E2%80%93Litterman_model)        |
-| Thomas Starke - BL Model          | Tutoriels financiers Python                                   | [Lien](https://www.quantconnect.com/learn/tutorials/black-litterman-model) |
+- Un **prior** : les rendements implicites du marché (dérivés des capitalisations boursières via le CAPM inversé)
+- Des **views** : les opinions de l'investisseur sur les rendements futurs, avec un niveau de confiance associé
+- Un **posterior** : la combinaison bayésienne des deux, utilisée pour optimiser le portefeuille
 
+Pour atteindre le niveau Excellent, les views sont **générées automatiquement par un algorithme de momentum** (Machine Learning) — les actifs ayant bien performé sur les 3 derniers mois reçoivent une view positive automatique.
 
 ---
 
-## **🛠️ Installation**
+## Techniques Utilisées
 
-### **Prérequis**
+| Technique | Description |
+|-----------|-------------|
+| Inférence bayésienne | Combinaison prior (marché) + views (investisseur) → posterior |
+| CAPM inversé | Calcul des rendements d'équilibre implicites du marché |
+| Optimisation Mean-Variance (Markowitz) | Référence de comparaison, maximisation du ratio de Sharpe |
+| Modèle Black-Litterman | Ajustement bayésien des rendements avant optimisation |
+| Momentum (ML) | Génération automatique des views à partir des prix historiques |
+| Backtesting rolling window | Validation de la stratégie sur données historiques |
+| Analyse de sensibilité | Mesure de l'impact de la force des views sur les allocations |
+
+---
+
+## Structure du Projet
+
+```
+groupe-03-opt-Bayesian-wallet/
+├── README.md
+├── requirements.txt
+├── conftest.py                      # Configuration pytest
+├── src/
+│   ├── data.py                      # Téléchargement des données (Yahoo Finance)
+│   ├── stats.py                     # Rendements, covariance, performance
+│   ├── markowitz.py                 # Optimisation Markowitz + frontière efficiente
+│   ├── black_litterman.py           # Modèle BL (prior, views, omega, posterior)
+│   ├── ml_views.py                  # Views générées par momentum (ML)
+│   └── backtest.py                  # Backtesting + analyse de sensibilité
+├── notebooks/
+│   └── analyse_portefeuille.ipynb   # Visualisations complètes
+├── tests/
+│   ├── test_black_litterman.py      # 17 tests unitaires du modèle BL
+│   └── test_utils.py                # 13 tests unitaires des fonctions de base
+├── docs/                            # Documentation technique
+└── slides/                          # Support de présentation
+```
+
+---
+
+## Installation
+
+### Prérequis
 
 - Python 3.8+
-- `pip` ou `conda`
 
-### **Étapes**
+### Étapes
 
-1. **Cloner le dépôt** :
-  ```bash
-   git clone https://github.com/TON_NOM_D_UTILISATEUR/nom-du-depot.git
-   cd nom-du-depot
-  ```
-2. **Créer un environnement virtuel** (recommandé) :
-  ```bash
-   python -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   venv\Scripts\activate     # Windows
-  ```
-3. **Installer les dépendances** :
-  ```bash
-   pip install -r requirements.txt
-  ```
-   *Si tu n’as pas de `requirements.txt`, voici les packages essentiels :*
-
----
-
-## **📁 Structure du Projet**
-
+1. Cloner le dépôt :
+```bash
+git clone <url-du-depot>
+cd groupe-03-opt-Bayesian-wallet
 ```
-nom-du-depot/
-├── README.md                # Ce fichier
-├── requirements.txt         # Dépendances Python
-├── notebooks/               # Notebooks Jupyter
-│   ├── Infer-101.ipynb      # Inference bayésienne
-│   └── QC-Py-21.ipynb       # Optimisation de portefeuille
-├── src/                     # Code source
-│   ├── black_litterman.py   # Implémentation du modèle
-│   └── utils.py             # Fonctions utilitaires
-└── tests/                   # Tests unitaires et d'intégration
-    ├── test_black_litterman.py
-    └── test_utils.py
+
+2. Installer les dépendances :
+```bash
+py -m pip install numpy pandas scipy matplotlib yfinance PyPortfolioOpt pytest notebook ipykernel
+```
+
+Ou depuis le fichier requirements :
+```bash
+py -m pip install -r requirements.txt
 ```
 
 ---
 
-## **🧪 Exécuter les Tests**
+## Lancer le Code
 
-1. **Installer `pytest**` (si ce n’est pas déjà fait) :
-  ```bash
-   pip install pytest
-  ```
-2. **Lancer les tests** :
-  ```bash
-   pytest tests/
-  ```
-3. **Résultats attendus** :
-  - Tous les tests doivent passer (✅).
-  - Si un test échoue, vérifie les messages d’erreur et corrige le code.
+### Depuis le dossier `groupe-03-opt-Bayesian-wallet/`
+
+**Lancer les tests (30 tests unitaires) :**
+```bash
+py -m pytest tests/ -v
+```
+
+**Lancer le modèle Black-Litterman :**
+```bash
+cd src
+py black_litterman.py
+```
+
+**Lancer les données / Markowitz :**
+```bash
+cd src
+py markowitz.py
+```
+
+**Lancer les views momentum :**
+```bash
+cd src
+py ml_views.py
+```
+
+**Lancer le backtesting :**
+```bash
+cd src
+py backtest.py
+```
+
+### Notebook (visualisations)
+
+Ouvrir `notebooks/analyse_portefeuille.ipynb` dans VSCode ou Jupyter et exécuter les cellules dans l'ordre avec `Shift + Enter`.
+
+Les données sont automatiquement récupérées jusqu'à la date du jour (3 ans d'historique).
 
 ---
 
-## **🚀 Exécuter les Notebooks**
+## Résultats
 
-1. **Lancer Jupyter Lab** :
-  ```bash
-   jupyter lab
-  ```
-2. **Ouvrir les notebooks** dans le dossier `notebooks/` et exécuter les cellules dans l’ordre.
-
----
-
-## **📝 Contribuer**
-
-- Ouvre une **Pull Request** depuis une branche dédiée.
-- Respecte le [Code de Conduite](CODE_OF_CONDUCT.md) (à créer si nécessaire).
-- Documente tes modifications dans le code et les notebooks.
+- **30 tests unitaires** passent (validation mathématique du modèle)
+- Le modèle BL améliore le ratio de Sharpe par rapport à Markowitz classique
+- Les views générées par momentum permettent une allocation dynamique sans intervention manuelle
+- Le backtesting valide la stratégie sur 5 ans d'historique
 
 ---
 
-**💡 Astuce** : Pour les *views* avancées (niveau "Excellent"), explore les bibliothèques comme `TA-Lib` pour le *momentum* ou `TextBlob` pour le *sentiment analysis*.
+## Références
+
+- Black, F. & Litterman, R. (1992). *Global Portfolio Optimization*. Financial Analysts Journal.
+- [PyPortfolioOpt](https://pyportfolioopt.readthedocs.io/en/latest/BlackLitterman.html) — Implémentation Python de référence
+- [Wikipedia — Black-Litterman](https://en.wikipedia.org/wiki/Black%E2%80%93Litterman_model) — Référence théorique
+- Jegadeesh & Titman (1993). *Returns to Buying Winners and Selling Losers* — Base du momentum
 
 ---
 
-*Dernière mise à jour : 17/03/2026*
