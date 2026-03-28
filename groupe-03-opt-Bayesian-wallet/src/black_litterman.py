@@ -11,7 +11,8 @@ import pandas as pd
 from scipy.optimize import minimize
 
 from data import compute_returns
-from stats import compute_mean_returns, compute_cov_matrix, portfolio_performance
+from stats import compute_mean_returns, compute_cov_matrix
+from markowitz import markowitz_weights
 
 
 # ---------------------------------------------------------------------------
@@ -433,9 +434,13 @@ def sensitivity_analysis(
 if __name__ == "__main__":
     from data import download_prices
     from markowitz import market_cap_weights
+    import config
 
-    TICKERS = ["AAPL", "MSFT", "GOOGL"]
-    prices = download_prices(TICKERS, "2022-01-01", "2024-01-01")
+    TICKERS     = config.TICKERS
+    views       = config.VIEWS
+    confidences = config.CONFIDENCES
+
+    prices = download_prices(TICKERS, config.START, config.END)
     returns = compute_returns(prices)
     mu = compute_mean_returns(returns)
     cov = compute_cov_matrix(returns)
@@ -454,15 +459,26 @@ if __name__ == "__main__":
     print("=" * 45)
     print("  ETAPE 2 — Nos opinions (views)")
     print("=" * 45)
-    views = [
-        {"type": "absolute", "asset": "AAPL", "return": 0.10},
-        {"type": "relative", "outperformer": "MSFT", "underperformer": "GOOGL", "return": 0.05},
-    ]
-    print("  View 1 (confiance 80%) : AAPL va faire  +10.00%")
-    print("  View 2 (confiance 60%) : MSFT surperforme GOOGL de +5.00%")
+
+    # Si pas de views manuelles → momentum automatique (ML)
+    if not views:
+        from ml_views import generate_momentum_views
+        views       = generate_momentum_views(prices, lookback=config.MOMENTUM_LOOKBACK)
+        confidences = [0.65] * len(views)
+        print("  (aucune view manuelle -> momentum automatique utilise)")
+
+    if not views:
+        print("  Aucune view generee, impossible de continuer.")
+        exit()
+
+    for i, (v, c) in enumerate(zip(views, confidences)):
+        if v["type"] == "absolute":
+            print(f"  View {i+1} (confiance {c:.0%}) : {v['asset']} va faire {v['return']:+.2%}")
+        else:
+            print(f"  View {i+1} (confiance {c:.0%}) : {v['outperformer']} surperforme {v['underperformer']} de {v['return']:+.2%}")
 
     P, Q = build_views(TICKERS, views)
-    omega = compute_omega(P, cov, confidences=[0.8, 0.6])
+    omega = compute_omega(P, cov, confidences=confidences)
 
     # --- ETAPE 3 : Posterior BL ---
     print()
@@ -482,8 +498,8 @@ if __name__ == "__main__":
     print("=" * 45)
     print("  ETAPE 4 — Allocation optimale (max Sharpe)")
     print("=" * 45)
-    result_bl = optimize_bl_portfolio(mu_bl, cov_bl)
-    result_mw = {"weights": mw, **portfolio_performance(mw, mu, cov)}
+    result_bl = optimize_bl_portfolio(mu_bl, cov_bl, max_weight=0.40)
+    result_mw = markowitz_weights(mu, cov, max_weight=0.40)
     print(f"  {'Actif':6s}  {'Markowitz':>10s}  {'Black-Litterman':>15s}")
     print(f"  {'-'*6}  {'-'*10}  {'-'*15}")
     for ticker in TICKERS:

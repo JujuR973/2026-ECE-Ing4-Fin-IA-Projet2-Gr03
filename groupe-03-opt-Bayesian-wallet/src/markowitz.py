@@ -33,6 +33,7 @@ def markowitz_weights(
     cov: pd.DataFrame,
     target_return: float = None,
     risk_free_rate: float = 0.02,
+    max_weight: float = 1.0,
 ) -> dict:
     """
     Optimisation Markowitz : maximise le ratio de Sharpe (ou minimise la variance
@@ -49,7 +50,7 @@ def markowitz_weights(
     """
     n = len(mu)
     w0 = np.ones(n) / n
-    bounds = [(0, 1)] * n
+    bounds = [(0, max_weight)] * n
     constraints = [{"type": "eq", "fun": lambda w: np.sum(w) - 1}]
 
     if target_return is not None:
