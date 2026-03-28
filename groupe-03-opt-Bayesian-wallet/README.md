@@ -49,6 +49,7 @@ groupe-03-opt-Bayesian-wallet/
 ├── requirements.txt
 ├── conftest.py                      # Configuration pytest
 ├── src/
+│   ├── config.py                    # Configuration centrale (actifs, dates, views, paramètres)
 │   ├── data.py                      # Téléchargement des données (Yahoo Finance)
 │   ├── stats.py                     # Rendements, covariance, performance
 │   ├── markowitz.py                 # Optimisation Markowitz + frontière efficiente
@@ -92,6 +93,26 @@ py -m pip install -r requirements.txt
 
 ---
 
+## Configuration
+
+Tout est centralisé dans `src/config.py`. C'est le seul fichier à modifier :
+
+```python
+TICKERS    = ["AAPL", "MSFT", "GOOGL", "META", "AMZN"]  # Actifs analysés
+MAX_WEIGHT = 0.40   # Poids maximum par actif (40%)
+
+# Views manuelles (laisser [] pour utiliser le momentum automatique)
+VIEWS = [
+    {"type": "absolute", "asset": "MSFT", "return": 0.12},
+    {"type": "relative", "outperformer": "MSFT", "underperformer": "GOOGL", "return": 0.05},
+]
+CONFIDENCES = [0.7, 0.6]  # Une valeur par view
+```
+
+Les dates sont automatiques (3 ans d'historique jusqu'à aujourd'hui). Le notebook et `black_litterman.py` lisent tous les deux depuis ce fichier.
+
+---
+
 ## Lancer le Code
 
 ### Depuis le dossier `groupe-03-opt-Bayesian-wallet/`
@@ -105,12 +126,6 @@ py -m pytest tests/ -v
 ```bash
 cd src
 py black_litterman.py
-```
-
-**Lancer les données / Markowitz :**
-```bash
-cd src
-py markowitz.py
 ```
 
 **Lancer les views momentum :**
@@ -127,9 +142,7 @@ py backtest.py
 
 ### Notebook (visualisations)
 
-Ouvrir `notebooks/analyse_portefeuille.ipynb` dans VSCode ou Jupyter et exécuter les cellules dans l'ordre avec `Shift + Enter`.
-
-Les données sont automatiquement récupérées jusqu'à la date du jour (3 ans d'historique).
+Ouvrir `notebooks/analyse_portefeuille.ipynb` dans VSCode, restart le kernel et exécuter les cellules dans l'ordre avec `Shift + Enter`.
 
 ---
 
